@@ -1,7 +1,5 @@
 #include "Block.h"
 
-bool Echo = 1;
-
 Block::Block() {
 	this->inputLines = {};
 }

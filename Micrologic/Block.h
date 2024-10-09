@@ -3,8 +3,6 @@
 #include <vector>
 #include "Line.h"
 
-extern bool Echo;
-
 class Block {
 public:
 	std::vector<Line*> inputLines;

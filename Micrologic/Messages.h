@@ -93,7 +93,15 @@ const std::map<std::string, std::string> zh_cn = {
 };
 
 inline const char* getMessage(std::string lang, std::string key) {
-	if (lang == "en_us") return en_us.at(key).c_str();
-	else if (lang == "zh_cn") return zh_cn.at(key).c_str();
-	else return "";
+	try {
+		if (lang == "en_us") return en_us.at(key).c_str();
+		else if (lang == "zh_cn") return zh_cn.at(key).c_str();
+		else {
+			std::cerr << "[ERROR] Language not found: " << lang << std::endl;
+		}
+	}
+	catch (const std::out_of_range&) {
+		std::cerr << "[ERROR] Message not found: " << lang << "." << key << std::endl;
+	}
+	return "";
 }
