@@ -445,7 +445,7 @@ bool Interpreter::command(std::string cmd) {
 	else if (args[0] == "open" && count(cmd.begin(), cmd.end(), '\"') >= 2) open(convertSlash(quotedPart(cmd)));
 	else if (args[0] == "open" && args.size() == 2) open(args[1]);
 	else if (args[0] == "mod" && args.size() == 3) mod(args[1], args[2]);
-	else if (args[0] == "block" && args.size() >= 2) block(args[1], toInt(subVec(args, 2, args.size())));
+	else if (args[0] == "block" && args.size() >= 2) block_old(args[1], toInt(subVec(args, 2, args.size())));
 	else if (args[0] == "tag" && args.size() == 2) tag(toInt(args[1]));
 	else if (args[0] == "type" && args.size() == 2) type(toInt(args[1]));
 	else if (args[0] == "check-input" && args.size() == 1) check_input();
