@@ -16,6 +16,10 @@ public:
 	std::array<bool, 4> nextWideValue;
 	std::array<bool, 4> wideValue;
 	Line(int mode = LINE);
+	Line(const Line&);
+	Line& operator=(const Line&);
+	Line(Line&&) noexcept;
+	Line& operator=(Line&&) noexcept;
 	void set(bool value);
 	void set(std::array<bool, 4> wideValue);
 	void flush();

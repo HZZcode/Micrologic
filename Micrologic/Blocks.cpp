@@ -9,7 +9,83 @@ Blocks::Blocks() {
 	this->T.reserve(cap);
 	this->C.reserve(cap);
 	this->Bs.reserve(cap);
-	this->L.reserve(cap);
+}
+
+Blocks::Blocks(const Blocks& other) {
+	speed = other.speed;
+	inputs = other.inputs;
+	outputs = other.outputs;
+	mods = other.mods;
+	L = other.L;
+	N = other.N;
+	A = other.A;
+	R = other.R;
+	T = other.T;
+	C = other.C;
+	P = other.P;
+	Bs = other.Bs;
+}
+
+Blocks& Blocks::operator=(const Blocks& other) {
+	speed = other.speed;
+	inputs = other.inputs;
+	outputs = other.outputs;
+	mods = other.mods;
+	L = other.L;
+	N = other.N;
+	A = other.A;
+	R = other.R;
+	T = other.T;
+	C = other.C;
+	P = other.P;
+	Bs = other.Bs;
+	return *this;
+}
+
+Blocks::Blocks(Blocks&& other) noexcept {
+	speed = other.speed;
+	inputs = std::move(other.inputs);
+	outputs = std::move(other.outputs);
+	mods = std::move(other.mods);
+	L = std::move(other.L);
+	N = std::move(other.N);
+	A = std::move(other.A);
+	R = std::move(other.R);
+	T = std::move(other.T);
+	C = std::move(other.C);
+	P = std::move(other.P);
+	Bs = std::move(other.Bs);
+	other.speed = 0;
+}
+
+Blocks& Blocks::operator=(Blocks&& other) noexcept {
+	if (this != &other) {
+		inputs.clear();
+		outputs.clear();
+		mods.clear();
+		L.clear();
+		N.clear();
+		A.clear();
+		R.clear();
+		T.clear();
+		C.clear();
+		P.clear();
+		Bs.clear();
+		speed = other.speed;
+		inputs = std::move(other.inputs);
+		outputs = std::move(other.outputs);
+		mods = std::move(other.mods);
+		L = std::move(other.L);
+		N = std::move(other.N);
+		A = std::move(other.A);
+		R = std::move(other.R);
+		T = std::move(other.T);
+		C = std::move(other.C);
+		P = std::move(other.P);
+		Bs = std::move(other.Bs);
+		other.speed = 0;
+	}
+	return *this;
 }
 
 void Blocks::add(std::vector<Line> L) {
@@ -40,8 +116,12 @@ void Blocks::add(std::vector<BlockP> P) {
 	for (const BlockP& p : P) this->P.push_back(p);
 }
 
-void Blocks::add(Blocks b) {
+void Blocks::add(const Blocks& b) {
 	this->Bs.push_back(b);
+}
+
+void Blocks::add(Blocks&& b) {
+	this->Bs.push_back(std::move(b));
 }
 
 void Blocks::add(std::vector<Blocks> Bs) {

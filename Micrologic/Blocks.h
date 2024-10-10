@@ -17,6 +17,10 @@ inline void clearContainer(T& con) {
 class Blocks :public Block {
 public:
 	Blocks();
+	Blocks(const Blocks&);
+	Blocks& operator=(const Blocks& other);
+	Blocks(Blocks&&) noexcept;
+	Blocks& operator=(Blocks&& other) noexcept;
 	int speed = 1;
 	std::vector<int> inputs;
 	std::vector<int> outputs;
@@ -44,7 +48,8 @@ public:
 	void add(std::vector<BlockT> T);
 	void add(std::vector<BlockC> C);
 	void add(std::vector<BlockP> P);
-	void add(Blocks Bs);
+	void add(const Blocks& Bs);
+	void add(Blocks&& Bs);
 	void add(std::vector<Blocks> Bs);
 	void tick();
 	void clear();

@@ -232,6 +232,7 @@ void Interpreter::mod(std::string name, std::string file) {
 	blocks.mods.insert({ name, file });
 	writeMessage("MOD", name.c_str(), file.c_str());
 }
+//@TODO: Find out what's wrong with this fucking function
 void Interpreter::block(std::string name, std::vector<int> ios) {
 	std::vector<int> ins{}, outs{};
 	if (!assertInMap(name, blocks.mods)) return;
@@ -252,7 +253,7 @@ void Interpreter::block(std::string name, std::vector<int> ios) {
 		if (!assertInRange(o, blocks.L)) return;
 		newBlocks.outputLines.push_back(&(blocks.L[o]));
 	}
-	blocks.Bs.push_back(newBlocks);
+	blocks.add(std::move(newBlocks));
 	writeMessage("BLOCK1", (int)blocks.Bs.size() - 1, name.c_str());
 	for (int i : ins) {
 		if (Echo) printf("%d ", i);
@@ -263,12 +264,11 @@ void Interpreter::block(std::string name, std::vector<int> ios) {
 	}
 	writeMessage("BLOCK3");
 }
-//@TODO: Find out what's wrong with this fucking function
 void Interpreter::block_old(std::string name, std::vector<int> ios) {
 	std::vector<int> ins{}, outs{};
 	if (!assertInMap(name, blocks.mods)) return;
-	//blocks.add(Blocks()); //Working wrong, don't know why
-	blocks.Bs.push_back(Blocks());
+	Blocks newBlock = Blocks();
+	blocks.add(Blocks());
 	std::string filename = blocks.mods[name];
 	Interpreter(blocks.Bs[blocks.Bs.size() - 1], exepath, path, lang, Echo).command("open " + filename);
 	if (ios.size() != blocks.Bs[blocks.Bs.size() - 1].inputs.size() + blocks.Bs[blocks.Bs.size() - 1].outputs.size()) {
@@ -445,7 +445,7 @@ bool Interpreter::command(std::string cmd) {
 	else if (args[0] == "open" && count(cmd.begin(), cmd.end(), '\"') >= 2) open(convertSlash(quotedPart(cmd)));
 	else if (args[0] == "open" && args.size() == 2) open(args[1]);
 	else if (args[0] == "mod" && args.size() == 3) mod(args[1], args[2]);
-	else if (args[0] == "block" && args.size() >= 2) block_old(args[1], toInt(subVec(args, 2, args.size())));
+	else if (args[0] == "block" && args.size() >= 2) block(args[1], toInt(subVec(args, 2, args.size())));
 	else if (args[0] == "tag" && args.size() == 2) tag(toInt(args[1]));
 	else if (args[0] == "type" && args.size() == 2) type(toInt(args[1]));
 	else if (args[0] == "check-input" && args.size() == 1) check_input();

@@ -6,6 +6,52 @@ Line::Line(int mode) {
 	for (int i = 0; i < 4; i++) this->wideValue[i] = this->nextWideValue[i] = 0;
 }
 
+Line::Line(const Line& other) {
+	mode = other.mode;
+	value = other.value;
+	nextValue = other.nextValue;
+	wideValue = other.wideValue;
+	nextWideValue = other.nextWideValue;
+}
+
+Line& Line::operator=(const Line& other) {
+	mode = other.mode;
+	value = other.value;
+	nextValue = other.nextValue;
+	wideValue = other.wideValue;
+	nextWideValue = other.nextWideValue;
+	return *this;
+}
+
+Line::Line(Line&& other) noexcept {
+	mode = other.mode;
+	value = other.value;
+	nextValue = other.nextValue;
+	wideValue = other.wideValue;
+	nextWideValue = other.nextWideValue;
+	other.mode = 0;
+	other.value = 0;
+	other.nextValue = 0;
+	other.wideValue.fill(0);
+	other.nextWideValue.fill(0);
+}
+
+Line& Line::operator=(Line&& other) noexcept {
+	if (this != &other) {
+		mode = other.mode;
+		value = other.value;
+		nextValue = other.nextValue;
+		wideValue = other.wideValue;
+		nextWideValue = other.nextWideValue;
+		other.mode = 0;
+		other.value = 0;
+		other.nextValue = 0;
+		other.wideValue.fill(0);
+		other.nextWideValue.fill(0);
+	}
+	return *this;
+}
+
 void Line::set(bool value) {
 	this->value = this->nextValue = value;
 }
